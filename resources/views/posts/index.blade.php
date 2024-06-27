@@ -29,18 +29,25 @@
                         {{$post->description}}
                     </td>
                     <td >
+                        @auth
                             <button type="button" class="btn btn-danger"><a href="{{route('post.show' , $post->id )}}"> SHOW </a></button>
+                            @if (auth()->user()->can('update', $post))
                             <button type="button" class="btn btn-success"><a href="/edit/{{$post->id}}"> EDIT </a></button>
+                            @endif
+                            @can('delete',$post)
                             <form action="{{ route('post.destroy' , $post->id) }}" method="POST">
                                 @csrf
                                 @method("DELETE")
                                 <input type="submit" value="DELETE" type="button" class="btn btn-warning">
                             </form>
+                            @endcan
+                        @endauth
+
                     </td>
                 </tr>
 
             @empty
-                <p>🙂</p>
+                <p></p>
             @endforelse
         </tbody>
     </table>

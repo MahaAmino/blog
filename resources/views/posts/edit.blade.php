@@ -3,16 +3,12 @@
 @section("title","edit post")
 
 @section("content")
-@php
-$tags=explode(",",$post->tags)
-@endphp
-<table class="table table-info table-striped" >
+<table class="table table-success table-striped" >
 <thead>
     <tr>
         <th>Title</th>
         <th>Description</th>
         <th>Tags</th>
-        <th>Show</th>
         <th>Category</th>
         <th>Image</th>
     </tr>
@@ -25,46 +21,31 @@ $tags=explode(",",$post->tags)
                 <input type="text" id="tit" name="title" value="{{ $post->title }}">
             </td>
             <td>
-                <textarea name="description" id="des" cols="30" rows="10">{{ $post->description }}</textarea>
+                <textarea name="description" id="des" cols="30" rows="3">{{ $post->description }}</textarea>
+            </td>
+            <td>
+                <select data-mdb-select-init multiple name="tag[]">
+                    @foreach ($tag as $tagg )
+                        <option value={{ $tagg->id }} @foreach ($tags as $ta )
+                            @if ($ta->id == $tagg->id )
+                                @selected(true)
+                            @endif
+                        @endforeach>{{ $tagg->name }}</option>
+                    @endforeach
+            </td>
+            <td>
+                <select name="category" >
+                    @foreach ($category as $c)
+                    <option value={{ $c->id }} @if($post->category_id ==$c->id) @selected(true) @endif>{{ $c->title }} </option>
+                    @endforeach
+                </select>
             </td>
             <td>
                 <img src="/assets/imgs/{{ $post->image }}" alt="" class="img-fluid" alt="" width="100" height="150">
                 <input type="file" id="img" name="image">
             </td>
-            <td>
-                <label for="test">Happiness</label>
-                <input type="checkbox" id="test" name="tags[]" value="test"
-                @foreach ($tags as $tag )
-                    @if ($tag == "test")
-                        @checked(true)
-                    @endif
-                @endforeach>
-                <label for="test2">Love</label>
-                <input type="checkbox" id="test2" name="tags[]" value="test2"
-                @foreach ($tags as $tag )
-                    @if ($tag == "test2")
-                        @checked(true)
-                    @endif
-                @endforeach>
-            </td>
-            <td>
-                <label for="public">public</label>
-                <input type="radio" id="public" name="show" value="public"
-                @if($post->show =="public")
-                    @checked(true)
-                @endif>
-                <label for="private">private</label>
-                <input type="radio" id="private" name="show" value="private"
-                @if($post->show =="private")
-                    @checked(true)
-                @endif>
-            </td>
-            <td>
-                <select name="category" >
-                    <option value="mobile" @if($post->categories =="mobile") @selected(true) @endif>Mobile </option>
-                    <option value="discktop" @if($post->categories =="discktop") @selected(true) @endif>Discktop </option>
-                </select>
-            </td>
+
+
 </tbody>
 </table>
 <br>

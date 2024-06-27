@@ -1,6 +1,45 @@
+{{--
+@extends('layout.app')
+@section("title", "add comment")
+@section('content')
+
+<div class="left" >
+
+
+        <form action="/post" method="POST" enctype="multipart/form-data">
+        @csrf
+            <input type="text" id="tit" name="title">
+            <textarea name="description" id="des" cols="70" rows="3"></textarea>
+
+            <select data-mdb-select-init multiple name="tag[]">
+                @foreach ($tag as $t)
+                    <option value={{ $t->id }}>{{ $t->name }}</option>
+                @endforeach
+            </select>
+            <select data-mdb-select-init name="category">
+                @foreach ($category as $c)
+                <option value={{ $c->id }}><img
+                    src="/assets/imgs/{{ $c->image }}"
+                    alt=""
+                    style="width: 25px; height: 25px"
+                    class="rounded-circle"
+                    />{{ $c->title }}</option>
+            @endforeach
+            </select>
+            <input type="file" id="img" name="image">
+        <div>
+            <button type="submit"  class="btn btn-warning" style="color: rgb(59, 122, 122); font-weight: bolder " >Send </button>
+        </div>
+    </form>
+</div>
+
+@endsection
+ --}}
+
 @extends('layout.app')
 @section("title", "add post")
 @section('content')
+
 <div class="left" >
 <table class="table table-success table-striped">
     <thead>
@@ -8,7 +47,6 @@
             <th>Title</th>
             <th>Description</th>
             <th>Tags</th>
-            <th>Show</th>
             <th>Category</th>
             <th>Image</th>
         </tr>
@@ -22,24 +60,23 @@
         <td>
             <textarea name="description" id="des" cols="70" rows="3"></textarea>
         </td>
-
-        <td><label for="test">Happiness</label>
-            <input type="checkbox" id="test" name="tags[]" value="test">
-        <br>
-            <label for="test2">Love</label>
-            <input type="checkbox" id="test2" name="tags[]" value="test2">
+        <td>
+            <select data-mdb-select-init multiple name="tag[]">
+                @foreach ($tag as $t)
+                    <option value={{ $t->id }}>{{ $t->name }}</option>
+                @endforeach
+            </select>
         </td>
         <td>
-            <label for="public">Public</label>
-            <input type="radio" id="public" name="show" value="public">
-            <label for="private">Private</label>
-            <input type="radio" id="private" name="show" value="private">
-        </td>
-
-        <td>
-            <select name="category" >
-                <option value="mobile">Mobile</option>
-                <option value="discktop">Discktop</option>
+            <select data-mdb-select-init name="category">
+                @foreach ($category as $c)
+                <option value={{ $c->id }}><img
+                    src="/assets/imgs/{{ $c->image }}"
+                    alt=""
+                    style="width: 25px; height: 25px"
+                    class="rounded-circle"
+                    />{{ $c->title }}</option>
+            @endforeach
             </select>
         </td>
         <td>
@@ -54,3 +91,5 @@
 </div>
 
 @endsection
+
+
